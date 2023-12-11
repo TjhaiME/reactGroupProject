@@ -64,7 +64,7 @@ function App() {
 
   function get_single_task_JSX(taskKey){
     return (
-      <div className='task'>
+      <div className='task' key={taskKey}>
         <h3>{tasks[taskKey].name}</h3>
         <p>{tasks[taskKey].description}</p>
         <p>{tasks[taskKey].dateAdded}</p>
