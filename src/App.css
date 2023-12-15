@@ -64,3 +64,11 @@
   flex-direction: column;
   justify-content: space-between;
 }
+
+
+
+#global_buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}

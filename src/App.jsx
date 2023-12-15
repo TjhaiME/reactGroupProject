@@ -9,6 +9,7 @@ import ReactButton from './Button';
 
 let initialTasks = {
   //FOR TESTING!!!!
+  //DELETE FOR FINAL and use Form to create tasks
   "0" : {
     "name" : "short name of task",
     "description" : "no_task_description",
@@ -127,15 +128,6 @@ function App() {
 
 
 
-
-
-  // let tasks = {}
-  // function setTasks(newTasksObj){
-  //   //FOR TESTING ONLY,. REPLACE WITH useState Hook
-  //   tasks = newTasksObj
-  // }
-
-
 ///////////////////////////////////////////////////////////////////////////
 //         Button functions
 //////////////////////////////////////////////
@@ -168,6 +160,10 @@ function App() {
     setTasks({})
     console.log("after deleting tasks = ")
     console.log(tasks)
+  }
+
+  const button_toggleSort = () => {
+    setIsSorted(prev => !prev)
   }
 
 ///////////////////////////////////////////////////////////////////////////
@@ -247,6 +243,11 @@ function App() {
       <div id="optionsDiv">
         <h1>Options 'n' Stuff</h1>
         {/* put add task button here */}
+        <div id="global_buttons">
+          <ReactButton buttonFunc={remove_all_tasks} argument={undefined} name={"Remove All"}/>
+          <ReactButton buttonFunc={button_toggleSort} argument={undefined} name={"Toggle Sort"}/>
+        </div>
+
       </div>
 
       
@@ -259,34 +260,6 @@ function App() {
 
   }
 
-  // function TEST_make_test_tasks(){
-  //   //FOR TESTING ONLY
-  //   console.log("test set initial tasks")
-  //   //BAD RUNS EVERY FRAME!!!
-  //   let taskKey = String(0)
-  //   let newTask = structuredClone(taskDefault)
-  //   newTask.name = "test task"
-  //   add_task(newTask)
-  //   // tasks[taskKey] = structuredClone(taskDefault)
-  //   // tasks[taskKey].name = "test task"
-
-  //   //taskKey = String(1)
-  //   let newTask2 =structuredClone(taskDefault)
-  //   newTask2.name = "more test'n' tasks"
-  //   newTask2.status = -1
-  //   add_task(newTask2)
-  // }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -294,16 +267,10 @@ function App() {
   let toDoAppJSX = get_website_structure()
 
 
-  const button_toggleSort = () => {
-    setIsSorted(prev => !prev)
-  }
-
   //RETURN APP.JSX
   return (
     <div className="App">
       {/* <ReactButton buttonFunc={button_clearAll}/> */}
-      <ReactButton buttonFunc={remove_all_tasks} argument={undefined} name={"Remove All"}/>
-      <ReactButton buttonFunc={button_toggleSort} argument={undefined} name={"Toggle Sort"}/>
       {toDoAppJSX}
       {/* <Custom_Task_Component/> */}
     </div>
