@@ -36,3 +36,31 @@
     transform: rotate(360deg);
   }
 }
+
+.task{
+  display: flex;
+  flex-direction: column;
+  border-style: dashed;
+  border-color: #282c34;
+}
+.task_mid{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+.task_mid_Dates{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.task_mid_Status{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.task_mid_Assign{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
