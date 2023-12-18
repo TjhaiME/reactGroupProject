@@ -1,0 +1,48 @@
+/* Similar layout and styling to TaskList.css */
+
+.completed-tasks {
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .completed-tasks h2 {
+    background-color: #f4f4f4;
+    padding: 10px;
+    margin-top: 0;
+    border-bottom: 1px solid #ddd;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  .completed-tasks table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  
+  .completed-tasks th,
+  .completed-tasks td {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  .completed-tasks th {
+    background-color: #e7e7e7;
+  }
+  
+  .completed-tasks tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .completed-tasks tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Styling for indicating a task is completed */
+  .completed-tasks .completed-task {
+    color: #28a745; /* Green color to indicate completion */
+    text-decoration: line-through;
+  }
+  
