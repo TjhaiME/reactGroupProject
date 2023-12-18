@@ -1,74 +1,31 @@
-.App {
-  text-align: center;
+/* Styles for Todo List table */
+.task-list table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.task-list th,
+.task-list td {
+  padding: 8px;
+  border: 1px solid #ddd;
+  text-align: left;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.task-list th {
+  background-color: #f4f4f4;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.task-list tr:nth-child(odd) {
+  background-color: #f9f9f9;
 }
 
-.App-link {
-  color: #61dafb;
+.task-list tr:hover {
+  background-color: #f1f1f1;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.task{
-  display: flex;
-  flex-direction: column;
-  border-style: dashed;
-  border-color: #282c34;
-}
-.task_mid{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
-.task_mid_Dates{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-.task_mid_Status{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.task_mid_Assign{
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+h1.completed-tasks-title {
+  display: none;
 }
 
 
-
-#global_buttons{
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-}
+/* Add any additional styling as needed */
