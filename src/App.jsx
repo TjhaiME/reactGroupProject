@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import NewTask from './NewTask.js';
 import TaskList from './TaskList.js';
 import CompletedTasks from './CompletedTasks.js';
-import { format, addWeeks, parseISO } from 'date-fns';
+import { format, addDays, parseISO } from 'date-fns';
 import './App.css';
 
 export default function App() {
@@ -19,28 +19,51 @@ export default function App() {
   const addNewTask = (task) => {
     let newTasks = [];
     if (task.isReoccurring) {
-      const totalOccurrences = parseInt(task.reoccurringDuration, 10) * (task.frequency === 'fortnightly' ? 2 : 4);
+      const taskFreqMapMonth = {
+        'Daily' : 30,
+        'Weekly' : 4,
+        'Fortnightly' : 2,
+        'Monthly' : 1,
+      }
+      const taskFreqMapDays = {
+        'Daily' : 1,
+        'Weekly' : 7,
+        'Fortnightly' : 14,
+        'Monthly' : 30,
+      }
+
+      //const totalOccurrences = parseInt(task.reoccurringDuration, 10) * (task.frequency === 'Fortnightly' ? 2 : 4);
+      const totalOccurrences = parseInt(task.reoccurringDuration, 10) * taskFreqMapMonth[task.frequency];
+      // console.log("totalOccurances = ", totalOccurrences)
+      // console.log("task.reoccurringDuration = ", task.reoccurringDuration)
+      // console.log("task.frequency = ", task.frequency)
       for (let i = 0; i < totalOccurrences; i++) {
-        const frequencyOffset = task.frequency === 'weekly' ? i : i * 2;
-        const newDate = addWeeks(parseISO(task.taskDate), frequencyOffset);
+        //const frequencyOffset = (task.frequency === 'weekly' ? i : i * 2);
+        const newDate = addDays(parseISO(task.taskDate), taskFreqMapDays[task.frequency]*i);//used to be addWeeks
         newTasks.push({
           ...task,
           id: taskIdCounter + newTasks.length,
           taskDate: newDate.toISOString().split('T')[0]
         });
       }
-    } else if (task.frequency === 'daily') {
-      for (let i = 0; i < task.reoccurringDuration; i++) {
-        const newDate = addWeeks(parseISO(task.taskDate), i * 30);
-        newTasks.push({
-          ...task,
-          id: taskIdCounter + newTasks.length,
-          taskDate: newDate.toISOString().split('T')[0]
-        });
-      }
-    } else {
-      newTasks.push({ ...task, id: taskIdCounter });
-    }
+      //////WHAT I DID /////////////////////
+    }//This bracket was added since the one below was commented out (COMMENT TO RESTORE TO PREVIOUS VERSION WHEN UNCOMMENTING BELOW)
+    ///BELOW HAS BEEN COMMENTED OUT
+    //seems this was meant to be part of if( isReOccuring){} but wasnt in the right spot
+    // removed so we do with an object instead
+    // } else if (task.frequency === 'daily') {
+    //   for (let i = 0; i < task.reoccurringDuration; i++) {
+    //     const newDate = addWeeks(parseISO(task.taskDate), i * 30);
+    //     newTasks.push({
+    //       ...task,
+    //       id: taskIdCounter + newTasks.length,
+    //       taskDate: newDate.toISOString().split('T')[0]
+    //     });
+    //   }
+    // } else {
+    //   newTasks.push({ ...task, id: taskIdCounter });
+    // }
+    //////////////////////////////////////////
 
     setAllTasks([...allTasks, ...newTasks]);
     setTaskIdCounter(taskIdCounter + newTasks.length);
@@ -73,3 +96,8 @@ export default function App() {
     </div>
   );
 }
+
+
+//on each task we need an edit button
+//reoccuring task needs fixing in:
+//addNewTask
