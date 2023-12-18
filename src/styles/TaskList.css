@@ -1,0 +1,33 @@
+.todo-title {
+    color: #333; /* Change the color as per your preference */
+    font-size: 1.5rem; /* Change the font size as per your preference */
+    font-weight: bold; /* Makes the text bold */
+    text-align: left;
+    margin-left: 20px; /* Centers the text */
+    margin-bottom: 20px; /* Adds some space below the subheading */
+  }
+
+.table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 1rem;
+    }
+    
+    .table th {
+        background-color: #f2f2f2;
+        color: #333;
+        padding: 10px;
+        text-align: left;
+    }
+    
+    .table td {
+        border: 1px solid #ddd;
+        padding: 8px;
+    }
+
+    .table label {
+        margin-bottom: 16px;
+    }
+
+    /* Existing styles... */
+
