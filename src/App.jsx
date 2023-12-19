@@ -55,8 +55,10 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
       console.log(myCompletedTasks)
       //setCompletedTasks(myCompletedTasks)
   }
+  //Refresh
+  //myCompletedTasks = []
 
-  let myTaskCount = localStorage.getItem("taskCount")
+  let myTaskCount = localStorage.getItem("taskCounter")
   if(myTaskCount == null){
       console.log("failed to load taskCount")
       myTaskCount = 1
@@ -139,25 +141,30 @@ export default function App() {
     }
     //////////////////////////////////////////
 
-    setAllTasks([...allTasks, ...newTasks]);
-    localStorage.setItem("myTasks", JSON.stringify(allTasks));
-    setTaskIdCounter(taskIdCounter + newTasks.length);
-    localStorage.setItem("taskCounter", String(taskIdCounter + newTasks.length));
+    const myNewTasks = [...allTasks, ...newTasks]
+    setAllTasks(myNewTasks);
+    localStorage.setItem("myTasks", JSON.stringify(myNewTasks));
+    const newCount = taskIdCounter + newTasks.length
+    setTaskIdCounter(newCount);
+    localStorage.setItem("taskCounter", String(newCount));
   };
 
   const handleDelete = (taskIdToRemove) => {
-    setAllTasks(allTasks.filter(task => task.id !== taskIdToRemove));
-    localStorage.setItem("myTasks", JSON.stringify(allTasks));
+    const newTasks = allTasks.filter(task => task.id !== taskIdToRemove)
+    setAllTasks(newTasks);
+    localStorage.setItem("myTasks", JSON.stringify(newTasks));
   };
 
   const markComplete = (taskId) => {
     const completedTask = allTasks.find(task => task.id === taskId);
     if (completedTask) {
       console.log(`Task completed: ${completedTask.title}`);
-      setCompletedTasks([...completedTasks, { ...completedTask, status: 'closed' }]);
-      localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
-      setAllTasks(allTasks.filter(task => task.id !== taskId));
-      localStorage.setItem("myTasks", JSON.stringify(allTasks));
+      const newCompleteTasks = [...completedTasks, { ...completedTask, status: 'closed' }]
+      setCompletedTasks(newCompleteTasks);
+      localStorage.setItem("completedTasks", JSON.stringify(newCompleteTasks));
+      const newTasks = allTasks.filter(task => task.id !== taskId)
+      setAllTasks(newTasks);
+      localStorage.setItem("myTasks", JSON.stringify(newTasks));
     }
   };
 
