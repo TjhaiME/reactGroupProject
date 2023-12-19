@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { format, parseISO } from "date-fns";
 import "./styles/TaskList.css";
 
 export default function TaskList({ tasks, handleDelete, markComplete }) {
+  const [selectedTask, setSelectedTask] = useState(null);
+  const [showOverlay, setShowOverlay] = useState(false);
+
   if (!tasks) {
     return <div>No tasks available</div>;
   }
@@ -19,6 +22,30 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
     markComplete(taskId);
   };
 
+//<<<<<<< Tasklist-Overlay
+  const handleTaskClick = (task) => {
+    setSelectedTask(task);
+    setShowOverlay(true);
+  };
+
+  const handleSave = () => {
+    tasks.map((task) => {
+      if (task.id === selectedTask.id) {
+        return selectedTask;
+      }
+      return task;
+    });
+    // Update the tasks state with the updatedTasks array
+    // You can use a function passed as a prop to update the state in the parent component
+    // For example: handleUpdateTasks(updatedTasks);
+    setShowOverlay(false);
+  };
+
+  const handleCancel = () => {
+    setShowOverlay(false);
+  };
+//=======
+//>>>>>>> main
 
   return (
     <div className="task-list">
@@ -38,7 +65,7 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
         </thead>
         <tbody>
           {tasks.map((task) => (
-            <tr key={task.id}>
+            <tr key={task.id} onClick={() => handleTaskClick(task)}>
               <td>{task.id}</td>
               <td>{task.title}</td>
               <td>{formatDate(task.taskDate)}</td>
@@ -54,6 +81,84 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
           ))}
         </tbody>
       </table>
+
+      {showOverlay && (
+        <div className="overlay">
+          <div className="overlay-content">
+            <h3>Task Details</h3>
+            <div>
+              <label>
+                Task Date:
+                <input
+                  type="date"
+                  value={selectedTask.taskDate}
+                  onChange={(e) =>
+                    setSelectedTask({ ...selectedTask, taskDate: e.target.value })
+                  }
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Task Time:
+                <input
+                  type="time"
+                  value={selectedTask.taskTime}
+                  onChange={(e) =>
+                    setSelectedTask({ ...selectedTask, taskTime: e.target.value })
+                  }
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Priority:
+                <select
+                  value={selectedTask.priority}
+                  onChange={(e) =>
+                    setSelectedTask({ ...selectedTask, priority: e.target.value })
+                  }
+                >
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+              </label>
+            </div>
+            <div>
+              <label>
+                Assignee:
+                <input
+                  type="text"
+                  maxLength={50}
+                  value={selectedTask.assignee}
+                  onChange={(e) =>
+                    setSelectedTask({ ...selectedTask, assignee: e.target.value })
+                  }
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Status:
+                <select
+                  value={selectedTask.status}
+                  onChange={(e) =>
+                    setSelectedTask({ ...selectedTask, status: e.target.value })
+                  }
+                >
+                  <option value="In-progress">In-progress</option>
+                  <option value="Review">Review</option>
+                </select>
+              </label>
+            </div>
+            <div>
+              <button onClick={handleSave}>Save</button>
+              <button onClick={handleCancel}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
