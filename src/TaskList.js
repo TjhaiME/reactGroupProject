@@ -20,6 +20,7 @@ export default function TaskList({ tasks, handleDelete, markComplete , handleEdi
 
   const handleAction = (event, taskId, actionType) => {
     event.stopPropagation();
+    setShowOverlay(false);
     if (actionType === "complete") {
       markComplete(taskId);
     } else if (actionType === "delete") {
