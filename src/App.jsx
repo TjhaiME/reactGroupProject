@@ -19,10 +19,70 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
 //timeArray = temperatureJson.hourly.time
 //these are two arrays of equal size
 
+
+
+
+
+
+
+///////////////////
+//local Storage
+
+
+  //look for allTasks and completedTasks in local storage
+  //loading:
+  let myLoadedTasks = JSON.parse(localStorage.getItem("myTasks"))
+  if(myLoadedTasks == null){
+      console.log("failed to load allTasks")
+      myLoadedTasks = []
+  }else{
+      console.log("suceeded at loading allTasks")
+      console.log(myLoadedTasks)
+      //setAllTasks(myLoadedTasks)
+  }
+
+  let myCompletedTasks = JSON.parse(localStorage.getItem("completedTasks"))
+  if(myCompletedTasks == null){
+      console.log("failed to load completedTasks")
+      myCompletedTasks = []
+  }else{
+      if(Object.keys(myCompletedTasks).length == 0){
+        console.log("failed to load completedTasks 2")
+        console.log(myCompletedTasks)
+        myCompletedTasks = []
+      }
+      console.log("suceeded at loading completedTasks")
+      console.log(myCompletedTasks)
+      //setCompletedTasks(myCompletedTasks)
+  }
+
+  let myTaskCount = localStorage.getItem("taskCount")
+  if(myTaskCount == null){
+      console.log("failed to load taskCount")
+      myTaskCount = 1
+  }else{
+      console.log("suceeded at loading taskCount")
+      console.log(myTaskCount)
+      myTaskCount = (parseInt(myTaskCount,10))
+  }
+
+
+
+
+
 export default function App() {
-  const [allTasks, setAllTasks] = useState([]);
-  const [completedTasks, setCompletedTasks] = useState([]);
-  const [taskIdCounter, setTaskIdCounter] = useState(1);
+
+  const [allTasks, setAllTasks] = useState(myLoadedTasks);
+  const [completedTasks, setCompletedTasks] = useState(myCompletedTasks);
+  if (myLoadedTasks.length == 0 && myCompletedTasks.length == 0){
+    myTaskCount = 0
+  }
+  const [taskIdCounter, setTaskIdCounter] = useState(myTaskCount);
+
+
+
+
+
 
   const formatDateTime = (date, time) => {
     const formattedDate = date ? format(parseISO(date), 'MMM do yy') : '';
@@ -61,7 +121,7 @@ export default function App() {
         });
       }
       //////WHAT I DID /////////////////////
-    }//This bracket was added since the one below was commented out (COMMENT TO RESTORE TO PREVIOUS VERSION WHEN UNCOMMENTING BELOW)
+    //}//This bracket was added since the one below was commented out (COMMENT TO RESTORE TO PREVIOUS VERSION WHEN UNCOMMENTING BELOW)
     ///BELOW HAS BEEN COMMENTED OUT
     //seems this was meant to be part of if( isReOccuring){} but wasnt in the right spot
     // removed so we do with an object instead
@@ -74,17 +134,20 @@ export default function App() {
     //       taskDate: newDate.toISOString().split('T')[0]
     //     });
     //   }
-    // } else {
-    //   newTasks.push({ ...task, id: taskIdCounter });
-    // }
+    } else {
+      newTasks.push({ ...task, id: taskIdCounter });
+    }
     //////////////////////////////////////////
 
     setAllTasks([...allTasks, ...newTasks]);
+    localStorage.setItem("myTasks", JSON.stringify(allTasks));
     setTaskIdCounter(taskIdCounter + newTasks.length);
+    localStorage.setItem("taskCounter", String(taskIdCounter + newTasks.length));
   };
 
   const handleDelete = (taskIdToRemove) => {
     setAllTasks(allTasks.filter(task => task.id !== taskIdToRemove));
+    localStorage.setItem("myTasks", JSON.stringify(allTasks));
   };
 
   const markComplete = (taskId) => {
@@ -92,7 +155,9 @@ export default function App() {
     if (completedTask) {
       console.log(`Task completed: ${completedTask.title}`);
       setCompletedTasks([...completedTasks, { ...completedTask, status: 'closed' }]);
+      localStorage.setItem("completedTasks", JSON.stringify(completedTasks));
       setAllTasks(allTasks.filter(task => task.id !== taskId));
+      localStorage.setItem("myTasks", JSON.stringify(allTasks));
     }
   };
 
