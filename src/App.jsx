@@ -162,11 +162,31 @@ export default function App() {
       const newCompleteTasks = [...completedTasks, { ...completedTask, status: 'closed' }]
       setCompletedTasks(newCompleteTasks);
       localStorage.setItem("completedTasks", JSON.stringify(newCompleteTasks));
+      
       const newTasks = allTasks.filter(task => task.id !== taskId)
       setAllTasks(newTasks);
       localStorage.setItem("myTasks", JSON.stringify(newTasks));
     }
   };
+
+  const handleEdit = (selectedTask) => {
+    // console.log("handleEdit function in app.jsx")
+    // console.log("(selectedTask = ")
+    // console.log(selectedTask)
+    const newTasks = allTasks.map((task) => {
+      if (String(task.id) === String(selectedTask.id)) {
+        //console.log("found selected task")
+        return selectedTask;
+      }
+      return task;
+    });
+    // console.log("newTasks = ")
+    // console.log(newTasks)
+    setAllTasks(newTasks)
+    localStorage.setItem("myTasks", JSON.stringify(newTasks));
+  }
+
+
 
   //Weather stuff
   function getTempJSX(){
@@ -206,7 +226,7 @@ export default function App() {
       <div className="main-content">
         <h1 className="tasks-title">New Tasks</h1>
         <NewTask addNewTask={addNewTask} />
-        <TaskList tasks={allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} handleDelete={handleDelete} markComplete={markComplete} />
+        <TaskList tasks={allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} />
       </div>
       <div className="completed-tasks-section">
         <h1 className="completed-tasks-title">Completed Tasks</h1>

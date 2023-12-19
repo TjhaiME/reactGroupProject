@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { format, parseISO } from "date-fns";
 import "./styles/TaskList.css";
 
-export default function TaskList({ tasks, handleDelete, markComplete }) {
+export default function TaskList({ tasks, handleDelete, markComplete , handleEdit}) {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showOverlay, setShowOverlay] = useState(false);
 
@@ -24,17 +24,26 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
 
 //<<<<<<< Tasklist-Overlay
   const handleTaskClick = (task) => {
+    console.log("task = ")
+    console.log(task)
     setSelectedTask(task);
     setShowOverlay(true);
   };
 
   const handleSave = () => {
-    tasks.map((task) => {
-      if (task.id === selectedTask.id) {
-        return selectedTask;
-      }
-      return task;
-    });
+    //console.log("handleSave func in TaskList.js")
+    handleEdit(selectedTask)
+
+    // tasks.map((task) => {
+    //   if (task.id === selectedTask.id) {
+    //     return selectedTask;
+    //   }
+    //   return task;
+    // });
+
+    //we need to return this to something and use it
+    //we also need to do this in app.jsx as tasks is a state variable and we cant edit it this way
+
     // Update the tasks state with the updatedTasks array
     // You can use a function passed as a prop to update the state in the parent component
     // For example: handleUpdateTasks(updatedTasks);
@@ -92,8 +101,13 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
                 <input
                   type="date"
                   value={selectedTask.taskDate}
-                  onChange={(e) =>
-                    setSelectedTask({ ...selectedTask, taskDate: e.target.value })
+                  onChange={(e) =>{
+                    console.log("changing date")
+                    const newTask = structuredClone(selectedTask)
+                    newTask["taskDate"] = e.target.value
+                    setSelectedTask(newTask)
+                  }
+                    //setSelectedTask({ ...selectedTask, taskDate: e.target.value })
                   }
                 />
               </label>
@@ -153,7 +167,8 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
               </label>
             </div>
             <div>
-              <button onClick={handleSave}>Save</button>
+              <button onClick={() => handleSave()}>Save</button>
+              {/* <button onClick={handleSave}>Save</button> */}
               <button onClick={handleCancel}>Cancel</button>
             </div>
           </div>
