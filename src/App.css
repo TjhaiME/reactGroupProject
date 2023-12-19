@@ -29,3 +29,12 @@ h1.completed-tasks-title {
 
 
 /* Add any additional styling as needed */
+#daily-temp-div{
+  display: flex;
+  flex-direction: row;
+}
+
+.temp-element{
+  display: flex;
+  flex-direction: column;
+}

@@ -22,6 +22,7 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
     markComplete(taskId);
   };
 
+//<<<<<<< Tasklist-Overlay
   const handleTaskClick = (task) => {
     setSelectedTask(task);
     setShowOverlay(true);
@@ -43,6 +44,8 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
   const handleCancel = () => {
     setShowOverlay(false);
   };
+//=======
+//>>>>>>> main
 
   return (
     <div className="task-list">
