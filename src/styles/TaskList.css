@@ -31,3 +31,41 @@
 
     /* Existing styles... */
 
+    .overlay {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px;
+        height: 400px;
+        background-color: #f2f2f2; /* Your preferred background color */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+      }
+      
+      .overlay form {
+        width: 100%;
+        margin: 8px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+      }
+      
+      .overlay textarea {
+        width: 100px;
+        height: 100px;
+        background-color: white;
+        /* Additional styling for the text area */
+        border: 1px solid #ddd;
+        padding: 5px;
+        resize: none;
+      }
+      
+      /* Additional styling as needed */
+      
