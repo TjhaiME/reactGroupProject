@@ -5,6 +5,20 @@ import CompletedTasks from './CompletedTasks.js';
 import { format, addDays, parseISO } from 'date-fns';
 import './App.css';
 
+//let savedData = {}
+async function load_html(path){
+  return await fetch(path)
+    .then(response => {return response.json()})
+    .then(data => {return data})//console.log("data = ");//console.log(data);return data})
+    .catch(err => {console.log("ERROR: Failed to fetch savedData JSON, Error message = "+ err)})
+}
+//console.log("length of json keys = "+Object.keys(savedData).length)
+
+let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?latitude=-33.87&longitude=151.21&hourly=temperature_2m")
+//temperatureArray = temperatureJson.hourly.temperature_2m
+//timeArray = temperatureJson.hourly.time
+//these are two arrays of equal size
+
 export default function App() {
   const [allTasks, setAllTasks] = useState([]);
   const [completedTasks, setCompletedTasks] = useState([]);
@@ -82,8 +96,41 @@ export default function App() {
     }
   };
 
+  //Weather stuff
+  function getTempJSX(){
+    let jsxArray = []
+    const tempArray = temperatureJson.hourly.temperature_2m
+    const timeArray = temperatureJson.hourly.time
+    
+    for(let index =0 ; index<timeArray.length ; index++){
+      const Tdex = timeArray[index].indexOf("T")
+      const colonDex = timeArray[index].indexOf(":",Tdex)
+      const timeStr = timeArray[index].substring(Tdex+1,colonDex)
+      const timeMilli = Date.now() + 1000*60*60*parseInt(timeStr,10)
+      const timeThen = new Date(timeMilli)
+      //console.log(timeThen)
+      const newColonDex = String(timeThen).lastIndexOf(":")//backwards
+      const actualTimeStr = String(timeThen).substring(0,newColonDex)
+      let jsxElement = (
+      <div className="temp-element" key={"tmp"+index}>
+        <p>{actualTimeStr}</p>
+        <p>{tempArray[index] + "°C"}</p>
+      </div>
+      )
+      jsxArray.push(jsxElement)
+    }
+    return jsxArray
+  }
+  let tempJSX = getTempJSX()
+
+
+
+  //daily-temp-div is where I put the weather stuff
   return (
     <div className="app-container">
+      <div id="daily-temp-div">
+        {tempJSX}
+      </div>
       <div className="main-content">
         <h1 className="tasks-title">New Tasks</h1>
         <NewTask addNewTask={addNewTask} />
@@ -99,5 +146,11 @@ export default function App() {
 
 
 //on each task we need an edit button
-//reoccuring task needs fixing in:
-//addNewTask
+
+
+// open meteo has a free non commercial API for weather
+// e.g. https://api.open-meteo.com/v1/forecast?latitude=-33.87&longitude=151.21&hourly=temperature_2m
+// gives us a JSON
+//so we just need to put in sydney latitude and longitude
+
+//first step is forecast just today
