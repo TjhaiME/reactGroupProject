@@ -18,8 +18,13 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
     return timeString ? format(parseISO(`1970-01-01T${timeString}`), "h:mm a") : "";
   };
 
-  const handleComplete = (taskId) => {
-    markComplete(taskId);
+  const handleAction = (event, taskId, actionType) => {
+    event.stopPropagation();
+    if (actionType === "complete") {
+      markComplete(taskId);
+    } else if (actionType === "delete") {
+      handleDelete(taskId);
+    }
   };
 
   const handleTaskClick = (task) => {
@@ -71,8 +76,8 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
               <td>{task.assignee}</td>
               <td>{task.status || 'In-progress'}</td>
               <td>
-                <button onClick={() => handleComplete(task.id)}>Complete</button>
-                <button onClick={() => handleDelete(task.id)}>Delete</button>
+                <button onClick={(e) => handleAction(e, task.id, "complete")}>Complete</button>
+                <button onClick={(e) => handleAction(e, task.id, "delete")}>Delete</button>
               </td>
             </tr>
           ))}
@@ -83,6 +88,19 @@ export default function TaskList({ tasks, handleDelete, markComplete }) {
         <div className="overlay">
           <div className="overlay-content">
             <h3>Task Details</h3>
+            <div>
+              <label>
+                Task Title:
+                <input
+                  type="text"
+                  maxLength={50}
+                  value={selectedTask.title}
+                  onChange={(e) =>
+                    setSelectedTask({ ...selectedTask, title: e.target.value })
+                  }
+                />
+              </label>
+            </div>
             <div>
               <label>
                 Task Date:
