@@ -334,7 +334,7 @@ export default function App() {
     <div className="app-container">
       <Header />
       <div className="main-content">
-        <h1 className="tasks-title">New Tasks</h1>
+        <h2 className="tasks-title">New Tasks</h2>
         <NewTask addNewTask={addNewTask} />
         <TaskList tasks={sortedTasks} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} />
         {/* <TaskList tasks={allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} /> */}
@@ -345,6 +345,7 @@ export default function App() {
     
         
       <div id="daily-temp-div">
+        <h3>Daily Temperature Forecast</h3>
         {tempJSX}
       </div>
       </div>

@@ -1,7 +1,30 @@
+.app-container {
+  overflow-y: auto;
+  height: 100vh; /* or any other value that suits your needs */
+}
+
+.create-task-button {
+  background-color: #2D59E8; /* Blue */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 2px rgb(43, 48, 48);
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 4px 2px;
+  cursor: pointer;
+  letter-spacing: 0.48%; /* Letter spacing of 0.14% */
+  outline: none; /* No border outline */
+  margin-left: 20px;
+}
 /* Styles for Todo List table */
 .task-list table {
     width: 100%;
     border-collapse: collapse;
+    margin-left: 20px;
   }
   
   .task-list th,
@@ -9,6 +32,7 @@
     padding: 8px;
     border: 1px solid #ddd;
     text-align: left;
+    margin-left: 20px;
   }
   
   .task-list th {
@@ -23,19 +47,24 @@
     background-color: #f1f1f1;
   }
   
-  h1.completed-tasks-title {
+  .completed-tasks-title {
     display: none;
+    margin-left: 20px;
+    
   }
   
   
   /* Add any additional styling as needed */
   #daily-temp-div {
-    position: fixed;
     bottom: 0;
+    padding: 10px;
+    margin-top: 40px;
     display: flex;
     flex-direction: row;
+    font-size: small;
   }
   
   .temp-element {
     display: inline-block;
+    margin-left: 20px;
   }
