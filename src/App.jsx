@@ -149,6 +149,105 @@ export default function App() {
     localStorage.setItem("taskCounter", String(newCount));
   };
 
+
+
+  ///////////////////////////////////////
+  //    Sorting        //
+  function get_sorted_keys(whatProperty="null"){ //sortBool, whatProperty="null"
+
+    let sortBool = true
+    if (whatProperty == "null"){
+      sortBool = false
+    }
+
+    // function compareStatus(a, b) {
+    //   //since status was changed from a number to a string this will now do it based on alphabetical order
+    //   if (a.status < b.status) {
+    //     return -1;
+    //   } else if (a.status > b.status) {
+    //     return 1;
+    //   }
+    //   // a must be equal to b
+    //   return 0;
+    // }
+    // function compareKeys(a, b) {
+    //   if (parseInt(a.id) < parseInt(b.id)) {
+    //     return -1;
+    //   } else if (parseInt(a.id) > parseInt(b.id)) {
+    //     return 1;
+    //   }
+    //   // a must be equal to b
+    //   return 0;
+    // }
+    function compareGeneral(a, b) {// a = [property,key]
+      //since status was changed from a number to a string this will now do it based on alphabetical order
+      if (a[0] < b[0]) {
+        return -1;
+      } else if (a[0] > b[0]) {
+        return 1;
+      }
+      // a must be equal to b
+      return 0;
+    }
+    function get_property_key_pair(property = 'null'){
+      let newObjs = []
+      //for(let objKey of Object.keys(tasks)){
+      for(let index = 0; index < Object.keys(allTasks).length; index++){
+        let objKey = Object.keys(allTasks)[index]
+        newObjs.push([])
+  
+        //ADDING 2 CONSOLE LOGS FIXED A BUG....
+        //PERHAPS IT IS AN ASYNC ISSUE
+        console.log("key = ",objKey,", this task = ")
+        console.log(allTasks[objKey])
+  
+        // newObjs[index]["status"] = tasks[objKey].status
+        // newObjs[index]["key"] = objKey
+        if (property == 'null'){
+          newObjs[index] = [allTasks[objKey].id, objKey]
+        }else{
+          newObjs[index] = [allTasks[objKey][property], objKey] //[e.g] [status,id]
+        }
+
+      }
+      return newObjs
+    }
+
+    //could have other ones for priority etc
+    // let newObjs = []
+    // //for(let objKey of Object.keys(tasks)){
+    // for(let index = 0; index < Object.keys(tasks).length; index++){
+    //   let objKey = Object.keys(tasks)[index]
+    //   newObjs.push({})
+
+    //   //ADDING 2 CONSOLE LOGS FIXED A BUG....
+    //   //PERHAPS IT IS AN ASYNC ISSUE
+    //   console.log("key = ",objKey,", this task = ")
+    //   console.log(tasks[objKey])
+
+    //   // newObjs[index]["status"] = tasks[objKey].status
+    //   // newObjs[index]["key"] = objKey
+    //   newObjs[index] = tasks[objKey]
+    // }
+    let newObjs = get_property_key_pair(whatProperty)
+    let sortedTempObjs = []
+    if (sortBool == true){
+      sortedTempObjs = newObjs.toSorted(compareGeneral)
+    }else{
+      sortedTempObjs = newObjs
+    }
+
+    let sortedKeys = []
+    for(let tempObj of sortedTempObjs){
+      sortedKeys.push(sortedTempObjs[1])//(tempObj.key)
+    }
+ 
+
+    return sortedKeys
+  }////////////////////////////////////////
+
+
+
   const handleDelete = (taskIdToRemove) => {
     const newTasks = allTasks.filter(task => task.id !== taskIdToRemove)
     setAllTasks(newTasks);
@@ -216,7 +315,10 @@ export default function App() {
   let tempJSX = getTempJSX()
 
 
-
+  let sortedTasks = allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))//get_sorted_keys("null").map(key => ({...allTasks[key],...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//(whatProperty="null")//allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
+  
+  
+  
   //daily-temp-div is where I put the weather stuff
   return (
     <div className="app-container">
@@ -226,7 +328,8 @@ export default function App() {
       <div className="main-content">
         <h1 className="tasks-title">New Tasks</h1>
         <NewTask addNewTask={addNewTask} />
-        <TaskList tasks={allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} />
+        <TaskList tasks={sortedTasks} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} />
+        {/* <TaskList tasks={allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} /> */}
       </div>
       <div className="completed-tasks-section">
         <h1 className="completed-tasks-title">Completed Tasks</h1>
@@ -246,3 +349,12 @@ export default function App() {
 //so we just need to put in sydney latitude and longitude
 
 //first step is forecast just today
+
+
+
+
+
+
+
+
+
