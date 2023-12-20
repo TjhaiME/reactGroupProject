@@ -37,4 +37,6 @@ h1.completed-tasks-title {
 .temp-element{
   display: flex;
   flex-direction: column;
+  padding : 1px;
+  /*border : solid; */
 }
