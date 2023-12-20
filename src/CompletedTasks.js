@@ -2,7 +2,14 @@ import React from "react";
 import { format, parseISO } from "date-fns";
 import "./styles/TaskList.css"; // Reusing the TaskList styles
 
-export default function CompletedTasks({ completedTasks }) {
+export default function CompletedTasks({ completedTasks , handleDelete}) {
+
+  const handleAction = (event, taskId) => {
+    event.stopPropagation();
+    //setShowOverlay(false);
+    handleDelete(taskId);
+  };
+
   return (
     <div className="task-list">
       <h2>Completed Tasks</h2>
@@ -16,6 +23,7 @@ export default function CompletedTasks({ completedTasks }) {
             <th>Priority</th>
             <th>Assignee</th>
             <th>Status</th>
+            <th>Delete</th>
           </tr>
         </thead>
         <tbody>
@@ -35,6 +43,9 @@ export default function CompletedTasks({ completedTasks }) {
                 <td>{task.priority}</td>
                 <td>{task.assignee}</td>
                 <td>{task.status}</td>
+                <td>
+                <button onClick={(e) => handleAction(e, task.id)}>Delete</button>
+                </td>
               </tr>
             );
           })}

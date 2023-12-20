@@ -77,6 +77,13 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
       myTaskCount = (parseInt(myTaskCount,10))
   }
 
+  // //KEEP FOR DEBUGGING: If we save a value that shouldnt be able to exists we need to turn off local storage to get it to work again
+  // const bypassLoadLocalStorage = false//should be false //set to true to reset if something goes wrong
+  // if( bypassLoadLocalStorage){
+  //   myLoadedTasks = []
+  //   myCompletedTasks = []
+  //   myTaskCount = 1
+  // }
 
 
 
@@ -90,6 +97,7 @@ export default function App() {
     myTaskCount = 0
   }
   const [taskIdCounter, setTaskIdCounter] = useState(myTaskCount);
+  const [sortBy, setSortBy] = useState('null')
 
 
 
@@ -166,7 +174,7 @@ export default function App() {
   function get_sorted_keys(whatProperty="null"){ //sortBool, whatProperty="null"
 
     let sortBool = true
-    if (whatProperty == "null"){
+    if (whatProperty === "null"){
       sortBool = false
     }
 
@@ -213,10 +221,20 @@ export default function App() {
   
         // newObjs[index]["status"] = tasks[objKey].status
         // newObjs[index]["key"] = objKey
-        if (property == 'null'){
+        if (property === 'null'){
           newObjs[index] = [allTasks[objKey].id, objKey]
         }else{
-          newObjs[index] = [allTasks[objKey][property], objKey] //[e.g] [status,id]
+          const convertsForSort = {
+            //for strings that arent meant to sort in alphabetical order 
+            "priority" : {"Low":0,"Medium":1,"High":2},
+            "status" : {"In-progress":0,"Review":1,"Complete":2}//redundant
+          }
+          if (Object.hasOwn(convertsForSort, property)){
+            newObjs[index] = [convertsForSort[property][allTasks[objKey][property]], objKey]
+          }else{
+            newObjs[index] = [allTasks[objKey][property], objKey] //[e.g] [assignee,id]
+          }
+          
         }
 
       }
@@ -241,7 +259,7 @@ export default function App() {
     // }
     let newObjs = get_property_key_pair(whatProperty)
     let sortedTempObjs = []
-    if (sortBool == true){
+    if (sortBool === true){
       sortedTempObjs = newObjs.toSorted(compareGeneral)
     }else{
       sortedTempObjs = newObjs
@@ -249,7 +267,7 @@ export default function App() {
 
     let sortedKeys = []
     for(let tempObj of sortedTempObjs){
-      sortedKeys.push(sortedTempObjs[1])//(tempObj.key)
+      sortedKeys.push(tempObj[1])//(tempObj.key)
     }
  
 
@@ -262,6 +280,11 @@ export default function App() {
     const newTasks = allTasks.filter(task => task.id !== taskIdToRemove)
     setAllTasks(newTasks);
     localStorage.setItem("myTasks", JSON.stringify(newTasks));
+  };
+  const handleDeleteCompleted = (taskIdToRemove) => {
+    const newCompletedTasks = completedTasks.filter(task => task.id !== taskIdToRemove)
+    setCompletedTasks(newCompletedTasks);
+    localStorage.setItem("completedTasks", JSON.stringify(newCompletedTasks));
   };
 
   const markComplete = (taskId) => {
@@ -295,7 +318,9 @@ export default function App() {
     localStorage.setItem("myTasks", JSON.stringify(newTasks));
   }
 
-
+  const mainChangeSortOption = (newSortOption) => {
+    setSortBy(newSortOption)
+  }
 
   //Weather stuff
   function getTempJSX(){
@@ -325,29 +350,59 @@ export default function App() {
   let tempJSX = getTempJSX()
 
 
-  let sortedTasks = allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))//get_sorted_keys("null").map(key => ({...allTasks[key],...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//(whatProperty="null")//allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
+  console.log("allTasks = ")
+  console.log(allTasks)
+  //OLD NOT SORTED METHOD OF GETTING ALL TASKS: 
+  //const filteredTasks = allTasks.map((task) => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
+  
+  //const filteredTasks = allTasks.map((task) => ({ ...task}))
+
+  //NEW SORTED METHOD OF GETTING ALL TASKS: 
+  //const filteredTasks = get_sorted_keys(sortBy).map((key) => ({...allTasks[key], ...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))
+  
+  //const filteredTasks3 = []
+  // const sortedKeys = get_sorted_keys("null")
+  // console.log("sortedKeys = ")
+  // console.log(sortedKeys)
+  // for (let key of sortedKeys){
+  //   console.log("type of key")
+  //   console.log(typeof key)
+  //   let index = parseInt(key)
+  //   filteredTasks3.push(allTasks[index])
+  // }
+  // console.log("filteredTasks = ")
+  // console.log(filteredTasks)
+  // console.log("filteredTasks 2 = ")
+  // console.log(filteredTasks2)
   
   
+  let sortedTasks = get_sorted_keys(sortBy).map((key) => ({...allTasks[key], ...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//get_sorted_keys("null").map(key => ({...allTasks[key],...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//(whatProperty="null")//allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
+  
+
   
   //daily-temp-div is where I put the weather stuff
   return (
     <div className="app-container">
       <Header />
       <div className="main-content">
-        <h2 className="tasks-title">New Tasks</h2>
-        <NewTask addNewTask={addNewTask} />
+
+        <h1 className="tasks-title">New Tasks</h1>
+        <NewTask addNewTask={addNewTask} mainChangeSortOption={mainChangeSortOption}/>
+
         <TaskList tasks={sortedTasks} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} />
         {/* <TaskList tasks={allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} /> */}
       </div>
       <div className="completed-tasks-section">
         <h1 className="completed-tasks-title">Completed Tasks</h1>
-        <CompletedTasks completedTasks={completedTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} />
+
+        <CompletedTasks completedTasks={completedTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} handleDelete={handleDeleteCompleted} />
     
         
-      <div id="daily-temp-div">
-        <h3>Daily Temperature Forecast</h3>
-        {tempJSX}
-      </div>
+        <div id="daily-temp-div">
+          <h3>Daily Temperature Forecast</h3>
+          {tempJSX}
+        </div>
+
       </div>
       <Footer />
     </div>
