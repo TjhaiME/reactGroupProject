@@ -80,6 +80,7 @@ export default function App() {
     myTaskCount = 0
   }
   const [taskIdCounter, setTaskIdCounter] = useState(myTaskCount);
+  const [sortBy, setSortBy] = useState('null')
 
 
 
@@ -332,7 +333,7 @@ export default function App() {
   //const filteredTasks = allTasks.map((task) => ({ ...task}))
 
   //NEW SORTED METHOD OF GETTING ALL TASKS: 
-  const filteredTasks2 = get_sorted_keys("priority").map((key) => ({...allTasks[key], ...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))
+  const filteredTasks2 = get_sorted_keys(sortBy).map((key) => ({...allTasks[key], ...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))
   
   //const filteredTasks3 = []
   // const sortedKeys = get_sorted_keys("null")
@@ -350,7 +351,9 @@ export default function App() {
   // console.log(filteredTasks2)
   let sortedTasks = filteredTasks2//get_sorted_keys("null").map(key => ({...allTasks[key],...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//(whatProperty="null")//allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
   
-  
+  const mainChangeSortOption = (newSortOption) => {
+    setSortBy(newSortOption)
+  }
   
   //daily-temp-div is where I put the weather stuff
   return (
@@ -360,7 +363,7 @@ export default function App() {
       </div>
       <div className="main-content">
         <h1 className="tasks-title">New Tasks</h1>
-        <NewTask addNewTask={addNewTask} />
+        <NewTask addNewTask={addNewTask} mainChangeSortOption={mainChangeSortOption}/>
         <TaskList tasks={sortedTasks} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} />
         {/* <TaskList tasks={allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} handleDelete={handleDelete} markComplete={markComplete} handleEdit={handleEdit} /> */}
       </div>

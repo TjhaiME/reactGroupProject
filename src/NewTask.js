@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { format, parse } from 'date-fns';
 import './styles/NewTask.css';
 
-function NewTask({ addNewTask = () => {} }) {
+function NewTask({ addNewTask = () => {} , mainChangeSortOption}) {
   const [showOverlay, setShowOverlay] = useState(false);
   const [newTask, setNewTask] = useState({
     title: '',
@@ -60,10 +60,17 @@ function NewTask({ addNewTask = () => {} }) {
   const openOverlay = () => setShowOverlay(true);
   const closeOverlay = () => setShowOverlay(false);
 
+
+  const handleChangeSortOption = (e) => {
+    console.log("e = ")
+    console.log(e)
+    mainChangeSortOption(e.target.value)
+  }
+
   return (
     <div>
       <button onClick={openOverlay} className="create-task-button">Create Task</button>
-
+      <InputField label="SortTasks" type="select" name="sortTasks" value={newTask.priority} handleChange={handleChangeSortOption} options={["title", "taskDate", "taskTime","priority","assignee","status","id"]} />
       {showOverlay && (
         <div className="overlay">
           <form onSubmit={handleSubmit}>
