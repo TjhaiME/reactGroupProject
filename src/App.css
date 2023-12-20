@@ -1,40 +1,41 @@
 /* Styles for Todo List table */
 .task-list table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.task-list th,
-.task-list td {
-  padding: 8px;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-.task-list th {
-  background-color: #f4f4f4;
-}
-
-.task-list tr:nth-child(odd) {
-  background-color: #f9f9f9;
-}
-
-.task-list tr:hover {
-  background-color: #f1f1f1;
-}
-
-h1.completed-tasks-title {
-  display: none;
-}
-
-
-/* Add any additional styling as needed */
-#daily-temp-div{
-  display: flex;
-  flex-direction: row;
-}
-
-.temp-element{
-  display: flex;
-  flex-direction: column;
-}
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .task-list th,
+  .task-list td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .task-list th {
+    background-color: #f4f4f4;
+  }
+  
+  .task-list tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .task-list tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  h1.completed-tasks-title {
+    display: none;
+  }
+  
+  
+  /* Add any additional styling as needed */
+  #daily-temp-div {
+    position: fixed;
+    bottom: 0;
+    display: flex;
+    flex-direction: row;
+  }
+  
+  .temp-element {
+    display: inline-block;
+  }

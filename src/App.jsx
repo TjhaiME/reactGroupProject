@@ -1,9 +1,18 @@
 import React, { useState } from 'react';
+import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { format, addDays, parseISO } from 'date-fns';
 import NewTask from './NewTask.js';
 import TaskList from './TaskList.js';
 import CompletedTasks from './CompletedTasks.js';
-import { format, addDays, parseISO } from 'date-fns';
+import Header from './header';
+import About from './about.js';
+import Footer from './footer';
 import './App.css';
+
+
+
+
+
 
 //let savedData = {}
 async function load_html(path){
@@ -32,7 +41,7 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
   //look for allTasks and completedTasks in local storage
   //loading:
   let myLoadedTasks = JSON.parse(localStorage.getItem("myTasks"))
-  if(myLoadedTasks == null){
+  if(myLoadedTasks === null){
       console.log("failed to load allTasks")
       myLoadedTasks = []
   }else{
@@ -42,11 +51,11 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
   }
 
   let myCompletedTasks = JSON.parse(localStorage.getItem("completedTasks"))
-  if(myCompletedTasks == null){
+  if(myCompletedTasks === null){
       console.log("failed to load completedTasks")
       myCompletedTasks = []
   }else{
-      if(Object.keys(myCompletedTasks).length == 0){
+      if(Object.keys(myCompletedTasks).length === 0){
         console.log("failed to load completedTasks 2")
         console.log(myCompletedTasks)
         myCompletedTasks = []
@@ -59,7 +68,7 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
   //myCompletedTasks = []
 
   let myTaskCount = localStorage.getItem("taskCounter")
-  if(myTaskCount == null){
+  if(myTaskCount === null){
       console.log("failed to load taskCount")
       myTaskCount = 1
   }else{
@@ -73,10 +82,11 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
 
 
 export default function App() {
+  
 
   const [allTasks, setAllTasks] = useState(myLoadedTasks);
   const [completedTasks, setCompletedTasks] = useState(myCompletedTasks);
-  if (myLoadedTasks.length == 0 && myCompletedTasks.length == 0){
+  if (myLoadedTasks.length === 0 && myCompletedTasks.length === 0){
     myTaskCount = 0
   }
   const [taskIdCounter, setTaskIdCounter] = useState(myTaskCount);
@@ -322,9 +332,7 @@ export default function App() {
   //daily-temp-div is where I put the weather stuff
   return (
     <div className="app-container">
-      <div id="daily-temp-div">
-        {tempJSX}
-      </div>
+      <Header />
       <div className="main-content">
         <h1 className="tasks-title">New Tasks</h1>
         <NewTask addNewTask={addNewTask} />
@@ -334,7 +342,13 @@ export default function App() {
       <div className="completed-tasks-section">
         <h1 className="completed-tasks-title">Completed Tasks</h1>
         <CompletedTasks completedTasks={completedTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} />
+    
+        
+      <div id="daily-temp-div">
+        {tempJSX}
       </div>
+      </div>
+      <Footer />
     </div>
   );
 }

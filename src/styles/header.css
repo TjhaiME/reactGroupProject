@@ -1,0 +1,36 @@
+header {
+    border-radius: 0px;
+    border: 0px solid black;
+    width: 100vw;
+    height: 80px;
+    background-color: #78a5b8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header h1 {
+    color: white;
+    font-size: 32px;
+    margin: 0;
+    padding: 10px;
+}
+
+header nav {
+    display: flex;
+    justify-content: center; /* Updated */
+    align-items: center;
+}
+
+header li {
+    display: flex;
+    margin: 0 20px;
+    padding: 5px;
+    color: white;
+    font-size: 16px;
+    align-items: center;
+}
+
+header h1 {
+    padding-left: 60px;
+}
