@@ -155,6 +155,7 @@ export default function TaskList({ tasks, handleDelete, markComplete , handleEdi
                   <option value="High">High</option>
                   <option value="Medium">Medium</option>
                   <option value="Low">Low</option>
+                  
                 </select>
               </label>
             </div>

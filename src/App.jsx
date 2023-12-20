@@ -206,7 +206,16 @@ export default function App() {
         if (property == 'null'){
           newObjs[index] = [allTasks[objKey].id, objKey]
         }else{
-          newObjs[index] = [allTasks[objKey][property], objKey] //[e.g] [status,id]
+          const convertsForSort = {
+            "priority" : {"Low":0,"Medium":1,"High":2},
+            "status" : {"In-progress":0,"Review":1,"Complete":2}
+          }
+          if (Object.hasOwn(convertsForSort, property)){
+            newObjs[index] = [convertsForSort[property][allTasks[objKey][property]], objKey]
+          }else{
+            newObjs[index] = [allTasks[objKey][property], objKey] //[e.g] [assignee,id]
+          }
+          
         }
 
       }
@@ -239,7 +248,7 @@ export default function App() {
 
     let sortedKeys = []
     for(let tempObj of sortedTempObjs){
-      sortedKeys.push(sortedTempObjs[1])//(tempObj.key)
+      sortedKeys.push(tempObj[1])//(tempObj.key)
     }
  
 
@@ -315,7 +324,31 @@ export default function App() {
   let tempJSX = getTempJSX()
 
 
-  let sortedTasks = allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))//get_sorted_keys("null").map(key => ({...allTasks[key],...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//(whatProperty="null")//allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
+  console.log("allTasks = ")
+  console.log(allTasks)
+  //OLD NOT SORTED METHOD OF GETTING ALL TASKS: 
+  //const filteredTasks = allTasks.map((task) => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
+  
+  //const filteredTasks = allTasks.map((task) => ({ ...task}))
+
+  //NEW SORTED METHOD OF GETTING ALL TASKS: 
+  const filteredTasks2 = get_sorted_keys("priority").map((key) => ({...allTasks[key], ...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))
+  
+  //const filteredTasks3 = []
+  // const sortedKeys = get_sorted_keys("null")
+  // console.log("sortedKeys = ")
+  // console.log(sortedKeys)
+  // for (let key of sortedKeys){
+  //   console.log("type of key")
+  //   console.log(typeof key)
+  //   let index = parseInt(key)
+  //   filteredTasks3.push(allTasks[index])
+  // }
+  // console.log("filteredTasks = ")
+  // console.log(filteredTasks)
+  // console.log("filteredTasks 2 = ")
+  // console.log(filteredTasks2)
+  let sortedTasks = filteredTasks2//get_sorted_keys("null").map(key => ({...allTasks[key],...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//(whatProperty="null")//allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
   
   
   
