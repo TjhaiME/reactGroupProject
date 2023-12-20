@@ -1,42 +1,71 @@
+.app-container {
+  overflow-y: auto;
+  height: 100vh; /* or any other value that suits your needs */
+}
+
+.create-task-button {
+  background-color: #2D59E8; /* Blue */
+  border-radius: 10px; /* Rounded corners */
+  box-shadow: 2px rgb(43, 48, 48);
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  font-weight: bold;
+  margin: 4px 2px;
+  cursor: pointer;
+  letter-spacing: 0.48%; /* Letter spacing of 0.14% */
+  outline: none; /* No border outline */
+  margin-left: 20px;
+}
 /* Styles for Todo List table */
 .task-list table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.task-list th,
-.task-list td {
-  padding: 8px;
-  border: 1px solid #ddd;
-  text-align: left;
-}
-
-.task-list th {
-  background-color: #f4f4f4;
-}
-
-.task-list tr:nth-child(odd) {
-  background-color: #f9f9f9;
-}
-
-.task-list tr:hover {
-  background-color: #f1f1f1;
-}
-
-h1.completed-tasks-title {
-  display: none;
-}
-
-
-/* Add any additional styling as needed */
-#daily-temp-div{
-  display: flex;
-  flex-direction: row;
-}
-
-.temp-element{
-  display: flex;
-  flex-direction: column;
-  padding : 1px;
-  /*border : solid; */
-}
+    width: 100%;
+    border-collapse: collapse;
+    margin-left: 20px;
+  }
+  
+  .task-list th,
+  .task-list td {
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: left;
+    margin-left: 20px;
+  }
+  
+  .task-list th {
+    background-color: #f4f4f4;
+  }
+  
+  .task-list tr:nth-child(odd) {
+    background-color: #f9f9f9;
+  }
+  
+  .task-list tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .completed-tasks-title {
+    display: none;
+    margin-left: 20px;
+    
+  }
+  
+  
+  /* Add any additional styling as needed */
+  #daily-temp-div {
+    bottom: 0;
+    padding: 10px;
+    margin-top: 40px;
+    display: flex;
+    flex-direction: row;
+    font-size: small;
+  }
+  
+  .temp-element {
+    display: inline-block;
+    margin-left: 20px;
+    padding: 1px;
+  }
