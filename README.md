@@ -12,6 +12,5 @@ We used this tutorial: https://github.com/gitname/react-gh-pages
 
 
 
+![finalWireFrame](https://github.com/TjhaiME/reactGroupProject/assets/24908636/e1a34ab6-1758-4a60-acee-a154b9b9467f)
 
-
-![finalWireFrame](https://github.com/TjhaiME/reactGroupProject/assets/24908636/3812cb13-0123-417e-8938-27f8b9db6019)
