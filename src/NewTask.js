@@ -4,6 +4,7 @@ import './styles/NewTask.css';
 
 function NewTask({ addNewTask = () => {} , mainChangeSortOption}) {
   const [showOverlay, setShowOverlay] = useState(false);
+  const [errors, setErrors] = useState({});
   const [newTask, setNewTask] = useState({
     title: '',
     description: '',
@@ -29,17 +30,15 @@ function NewTask({ addNewTask = () => {} , mainChangeSortOption}) {
     return format(time, 'h:mm a');
   };
 
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (e) => {
-    setNewTask({ ...newTask, [e.target.name]: e.target.value });
-  };
-
   const validateForm = (task) => {
     let formErrors = {};
     if (!task.title.trim()) formErrors.title = 'Title is required';
     // Additional validations can be added here
     return formErrors;
+  };
+
+  const handleChange = (e) => {
+    setNewTask({ ...newTask, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (event) => {
@@ -57,15 +56,17 @@ function NewTask({ addNewTask = () => {} , mainChangeSortOption}) {
     }
   };
 
-  const openOverlay = () => setShowOverlay(true);
-  const closeOverlay = () => setShowOverlay(false);
-
-
   const handleChangeSortOption = (e) => {
     console.log("e = ")
     console.log(e)
     mainChangeSortOption(e.target.value)
   }
+
+  const openOverlay = () => setShowOverlay(true);
+  const closeOverlay = () => setShowOverlay(false);
+
+
+
 
   return (
     <div>

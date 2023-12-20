@@ -208,8 +208,9 @@ export default function App() {
           newObjs[index] = [allTasks[objKey].id, objKey]
         }else{
           const convertsForSort = {
+            //for strings that arent meant to sort in alphabetical order 
             "priority" : {"Low":0,"Medium":1,"High":2},
-            "status" : {"In-progress":0,"Review":1,"Complete":2}
+            "status" : {"In-progress":0,"Review":1,"Complete":2}//redundant
           }
           if (Object.hasOwn(convertsForSort, property)){
             newObjs[index] = [convertsForSort[property][allTasks[objKey][property]], objKey]
@@ -295,7 +296,9 @@ export default function App() {
     localStorage.setItem("myTasks", JSON.stringify(newTasks));
   }
 
-
+  const mainChangeSortOption = (newSortOption) => {
+    setSortBy(newSortOption)
+  }
 
   //Weather stuff
   function getTempJSX(){
@@ -333,7 +336,7 @@ export default function App() {
   //const filteredTasks = allTasks.map((task) => ({ ...task}))
 
   //NEW SORTED METHOD OF GETTING ALL TASKS: 
-  const filteredTasks2 = get_sorted_keys(sortBy).map((key) => ({...allTasks[key], ...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))
+  //const filteredTasks = get_sorted_keys(sortBy).map((key) => ({...allTasks[key], ...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))
   
   //const filteredTasks3 = []
   // const sortedKeys = get_sorted_keys("null")
@@ -349,11 +352,11 @@ export default function App() {
   // console.log(filteredTasks)
   // console.log("filteredTasks 2 = ")
   // console.log(filteredTasks2)
-  let sortedTasks = filteredTasks2//get_sorted_keys("null").map(key => ({...allTasks[key],...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//(whatProperty="null")//allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
   
-  const mainChangeSortOption = (newSortOption) => {
-    setSortBy(newSortOption)
-  }
+  
+  let sortedTasks = get_sorted_keys(sortBy).map((key) => ({...allTasks[key], ...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//get_sorted_keys("null").map(key => ({...allTasks[key],...formatDateTime(allTasks[key].taskDate, allTasks[key].taskTime)}))//(whatProperty="null")//allTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))
+  
+
   
   //daily-temp-div is where I put the weather stuff
   return (
