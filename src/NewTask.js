@@ -32,9 +32,12 @@ function NewTask({ addNewTask = () => {} , mainChangeSortOption}) {
 
   const validateForm = (task) => {
     let formErrors = {};
-    if (!task.title.trim()) formErrors.title = 'Title is required';
+    let didIPass = true
+    if (!task.title.trim()){formErrors.title = 'Title is required'};
     // Additional validations can be added here
-    return formErrors;
+    if(task.taskTime === ""){alert('Time is required');formErrors.taskTime = 'Time is required'}
+    if(task.taskDate === ""){alert('Date is required');formErrors.taskDate = 'Date is required'}
+    return formErrors;//, didIPass];
   };
 
   const handleChange = (e) => {
@@ -42,17 +45,23 @@ function NewTask({ addNewTask = () => {} , mainChangeSortOption}) {
   };
 
   const handleSubmit = (event) => {
+    console.log("submit pressed")
     event.preventDefault();
-    let formErrors = validateForm(newTask);
+    let validateResult = validateForm(newTask);
+    let formErrors = validateResult//[0]
+    //const didIPass = validateResult[1]
     setErrors(formErrors);
 
-    if (Object.keys(formErrors).length === 0) {
+    if (Object.keys(formErrors).length === 0){// || didIPass === false) {
       addNewTask(newTask);
       console.log(newTask);
       setNewTask({
         title: '', description: '', taskDate: '', taskTime: '', priority: '', assignee: '', isReoccurring: false, reoccurringDuration: '', frequency: 'Weekly'
       });
       setShowOverlay(false);
+    }else{
+      //we have errors, we dont want to close the form but we need to delete the errors so we can try again
+      setErrors({})
     }
   };
 

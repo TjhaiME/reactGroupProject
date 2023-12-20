@@ -32,7 +32,7 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
   //look for allTasks and completedTasks in local storage
   //loading:
   let myLoadedTasks = JSON.parse(localStorage.getItem("myTasks"))
-  if(myLoadedTasks == null){
+  if(myLoadedTasks === null){
       console.log("failed to load allTasks")
       myLoadedTasks = []
   }else{
@@ -42,11 +42,11 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
   }
 
   let myCompletedTasks = JSON.parse(localStorage.getItem("completedTasks"))
-  if(myCompletedTasks == null){
+  if(myCompletedTasks === null){
       console.log("failed to load completedTasks")
       myCompletedTasks = []
   }else{
-      if(Object.keys(myCompletedTasks).length == 0){
+      if(Object.keys(myCompletedTasks).length === 0){
         console.log("failed to load completedTasks 2")
         console.log(myCompletedTasks)
         myCompletedTasks = []
@@ -59,7 +59,7 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
   //myCompletedTasks = []
 
   let myTaskCount = localStorage.getItem("taskCounter")
-  if(myTaskCount == null){
+  if(myTaskCount === null){
       console.log("failed to load taskCount")
       myTaskCount = 1
   }else{
@@ -68,6 +68,13 @@ let temperatureJson = await load_html("https://api.open-meteo.com/v1/forecast?la
       myTaskCount = (parseInt(myTaskCount,10))
   }
 
+  // //KEEP FOR DEBUGGING: If we save a value that shouldnt be able to exists we need to turn off local storage to get it to work again
+  // const bypassLoadLocalStorage = false//should be false //set to true to reset if something goes wrong
+  // if( bypassLoadLocalStorage){
+  //   myLoadedTasks = []
+  //   myCompletedTasks = []
+  //   myTaskCount = 1
+  // }
 
 
 
@@ -76,7 +83,7 @@ export default function App() {
 
   const [allTasks, setAllTasks] = useState(myLoadedTasks);
   const [completedTasks, setCompletedTasks] = useState(myCompletedTasks);
-  if (myLoadedTasks.length == 0 && myCompletedTasks.length == 0){
+  if (myLoadedTasks.length === 0 && myCompletedTasks.length === 0){
     myTaskCount = 0
   }
   const [taskIdCounter, setTaskIdCounter] = useState(myTaskCount);
@@ -157,7 +164,7 @@ export default function App() {
   function get_sorted_keys(whatProperty="null"){ //sortBool, whatProperty="null"
 
     let sortBool = true
-    if (whatProperty == "null"){
+    if (whatProperty === "null"){
       sortBool = false
     }
 
@@ -204,7 +211,7 @@ export default function App() {
   
         // newObjs[index]["status"] = tasks[objKey].status
         // newObjs[index]["key"] = objKey
-        if (property == 'null'){
+        if (property === 'null'){
           newObjs[index] = [allTasks[objKey].id, objKey]
         }else{
           const convertsForSort = {
@@ -242,7 +249,7 @@ export default function App() {
     // }
     let newObjs = get_property_key_pair(whatProperty)
     let sortedTempObjs = []
-    if (sortBool == true){
+    if (sortBool === true){
       sortedTempObjs = newObjs.toSorted(compareGeneral)
     }else{
       sortedTempObjs = newObjs
@@ -263,6 +270,11 @@ export default function App() {
     const newTasks = allTasks.filter(task => task.id !== taskIdToRemove)
     setAllTasks(newTasks);
     localStorage.setItem("myTasks", JSON.stringify(newTasks));
+  };
+  const handleDeleteCompleted = (taskIdToRemove) => {
+    const newCompletedTasks = completedTasks.filter(task => task.id !== taskIdToRemove)
+    setCompletedTasks(newCompletedTasks);
+    localStorage.setItem("completedTasks", JSON.stringify(newCompletedTasks));
   };
 
   const markComplete = (taskId) => {
@@ -372,7 +384,7 @@ export default function App() {
       </div>
       <div className="completed-tasks-section">
         <h1 className="completed-tasks-title">Completed Tasks</h1>
-        <CompletedTasks completedTasks={completedTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} />
+        <CompletedTasks completedTasks={completedTasks.map(task => ({ ...task, ...formatDateTime(task.taskDate, task.taskTime) }))} handleDelete={handleDeleteCompleted} />
       </div>
     </div>
   );
