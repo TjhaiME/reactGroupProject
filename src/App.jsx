@@ -336,7 +336,7 @@ export default function App() {
       const timeThen = new Date(timeMilli)
       //console.log(timeThen)
       const newColonDex = String(timeThen).lastIndexOf(":")//backwards
-      const actualTimeStr = String(timeThen).substring(0,newColonDex)
+      const actualTimeStr = String(timeThen).substring(newColonDex-5,newColonDex)
       let jsxElement = (
       <div className="temp-element" key={"tmp"+index}>
         <p>{actualTimeStr}</p>
