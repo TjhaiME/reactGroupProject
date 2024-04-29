@@ -1,5 +1,5 @@
 
-# This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app)
 
 # Task Scheduling App (React & JavaScript)
 
@@ -10,7 +10,7 @@ This is a simple task scheduling app built using React. The app allows users to 
 ## Authors
 
 __Kash Ghanchi__
-[GitHub](https://github.com/kxxg1 "Kash's GitHub") / [LinkedIn](http://linkedin.com/in/kashg1/ "Kash's LinkedIn") / <kashgh9@gmail.com>
+[GitHub](https://github.com/kxxg1 "Kash's GitHub") / [LinkedIn](http://linkedin.com/in/kashg1/ "Kash's LinkedIn")
 
 __Tjhai Merchant-Eid__
 [GitHub](https://github.com/tjhai "Tjhai's GitHub") / [LinkedIn](linkedin.com/in/tjhai-merchant-eid-09019a2a1"Tjhai's LinkedIn") / <
