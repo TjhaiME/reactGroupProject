@@ -5,7 +5,7 @@
 
 ## Discription
 
-This is a simple task scheduling app built using React. The app allows users to add tasks to a list, mark tasks as completed, and delete tasks from the list. The app also includes a filter feature that allows users to filter tasks by their completion status.
+This is a simple task scheduling app built with React. The app allows users to add tasks to a list, mark tasks as completed, and delete tasks from the list. The app also includes a filter feature that allows users to filter tasks by their completion status. The App also uses an asynchronous JavaScript function to fetch and process JSON data from a weather API, handling errors gracefully and ensuring efficient data retrieval for real-time temperature forecasting.
 
 ## Authors
 
